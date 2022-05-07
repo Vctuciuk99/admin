@@ -1,0 +1,74 @@
+<?php 
+    //SABI NG WAG NA PANSININ EH TSK TSK TSK!!
+    //COPY LANG TO JUST INCASE MA SIRA HAHAHAHHAH
+    
+                    //php database connection
+                    $mysqli = require "../php/database_conn.php";
+                    
+                    if(isset($_GET['employee_no']) and isset($_GET['date']))
+                    {
+                        $employee_no = $_GET['employee_no'];
+                        $date = $_GET['date'];
+                        
+                        // print_r($employee_no);
+                        // print_r($date);
+
+                        $query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND `Date` = '$date' ";
+                        $query_run = mysqli_query($mysqli, $query);
+                        
+                        if(mysqli_num_rows($query_run) > 0)
+                            {
+                                foreach($query_run as $items)
+                                {
+                                    ?>
+                                    <tr>
+                                        <!-- $items['COLUMN NAME IN PHPMYADMIN DB'] -->
+                                        <td><?= $items['Employee_no']; ?></td>
+                                        <td><?= $items['Email']; ?></td>
+                                        <td><?= $items['Name']; ?></td>
+                                        <td><?= $items['Date']; ?></td>
+                                        <td><?= $items['Time_from']; ?></td>
+                                        <td><?= $items['Time_to']; ?></td>
+                                        <td><?= $items['Output']; ?></td>
+                                        <td><?= $items['Details']; ?></td>
+                                        <td><?= $items['Verification']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            else
+                            {
+                                ?>
+                                    <tr>
+                                        <td colspan="4">No Record Found</td>
+                                    </tr>
+                                <?php
+                            }
+
+                    }
+                
+                ?>
+        
+                </tbody>
+                </table>
+
+
+
+                <!-- {
+                    echo "<tr><td>".$items['Employee_No']."</td>";
+                    echo "<td>".$items['Email']."</td>";
+                    echo "<td>".$items['Department']."</td>";
+                    echo "<td>".$items['Name']."</td>";
+                    echo "<td>".$items['House_no']."</td>";
+                    echo "<td>".$items['Barangay']."</td>";
+                    echo "<td>".$items['Municipality']."</td>";
+                    echo "<td>".$items['Region']."</td>";
+                    echo "<td>".$items['Province']."</td>";
+                    echo "<td>".$items['Postal_Code']."</td>";
+                    echo "<td>".$items['Country']."</td>";
+                    echo "<td>".$items['Contact_Num']."</td>";
+                    echo "<td>".$items['Telephone_Num']."</td>";
+                    echo "<td>".$items['Password_Hash']."</td>";
+                    echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='../php/delete.php?id=".$items['Employee_No']."'>x</a></td><tr>";
+                } -->
+            </div>
