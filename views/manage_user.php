@@ -87,16 +87,6 @@
                                             <a onClick=\"javascript: return confirm('Are you sure you want to delete this user from the record?');\" href='../php/delete.php?employee=".$items['Employee_No']."'>DELETE USER</a>
                                         </td><tr>";
                                     }
-                                    //DELETE
-
-                                    // if (isset($_GET['employee']))
-                                    // {   
-                                    //     $employee = $_GET['employee'];
-                                    //     $delete = mysqli_query(
-                                    //         $mysqli, "DELETE * FROM 'user_personal_info' WHERE 'Employee_No' = '$employee' ");
-                                    //         header ("Location: ./manage_user.php");
-                                    //         die;
-                                    // }
                                 }
                                 else
                                 {
@@ -115,14 +105,6 @@
     </div>
 </div>           
 <!-- HANGGANG DITO -->
-
-<?php 
-    
-?>
-  
-
-
-
 
 <!-- BACK BUTTON LANG ITO DKO ALAM KUNG KAKAILANGANIN -->
 <a href="../index.php">BACK</a><br>
