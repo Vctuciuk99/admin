@@ -23,13 +23,36 @@
                 <?php if(isset($_GET['employee_no'])){echo $_GET['employee_no']; } ?>
                 required><br>
 
+            <!-- month -->
+            <h6>search by month</h6>
+            <label for="month">Month: </label>
+            <select name="month">
+                <!-- <option><//?php echo htmlspecialchars($department)?></option> -->
+                <option value="Select Month">Select Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+
+                <?php if(isset($_GET['month'])){echo $_GET['month']; } ?>
+            </select><br>
+
             <!-- date -->
+            <h6>search by date</h6>
             <label for="date">Date: </label>
 
             <!-- PHP SA LOOB NG INPUT TAG TO GET VALUE USING PHP -->
             <input type="date" name="date" 
                 <?php if(isset($_GET['date'])){echo $_GET['date']; } ?>
-                required><br>
+                ><p>(optional)</p>
 
             <!-- <a href="./result_records.php" type="submit">Search</a> -->
             <button type="submit">SEARCH</button>
@@ -61,12 +84,16 @@
                             //php database connection
                             $mysqli = require "../php/database_conn.php";
                             
-                            //SEARCH RECORD WITH EMPLOYEE NO ONLY
-                            if(isset($_GET['employee_no']) and isset($_GET['date']))
+                            //SEARCH RECORD WITH EMPLOYEE NO ONLY BY MONTHLY BASIS
+                            if(isset($_GET['month']) && empty($_GET['date']))
                             {
                                 $employee_no = $_GET['employee_no'];
-                                $date = $_GET['date'];
-                                $query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND `Date` = '$date' ";
+                                $month = $_GET['month'];
+                                //print_r($month);
+                                //$date = $_GET['date'];
+                                //print_r($date);
+                                //$query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND `Date` = '$date' ";
+                                $query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND DATE_FORMAT(Date,'%c')='$month' ";
                                 $query_run = mysqli_query($mysqli, $query);
                                 
                                 if(mysqli_num_rows($query_run) > 0)
@@ -99,6 +126,52 @@
                                     <?php
                                 }
                             }
+                            //search specific date only
+                            elseif ($_GET['month'] === 'Select Month' ) {
+                                
+                                # code...
+                                $employee_no = $_GET['employee_no'];
+                                //$month = $_GET['month'];
+                                //print_r($month);
+
+                                $date = $_GET['date'];
+                                //print_r($date);
+                                $query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND `Date` = '$date' ";
+                                //$query = "SELECT * FROM `user_diwar_record` WHERE `Employee_no` = '$employee_no' AND DATE_FORMAT(Date,'%c')='$month' ";
+                                $query_run = mysqli_query($mysqli, $query);
+                                
+                                if(mysqli_num_rows($query_run) > 0)
+                                {
+                                    foreach($query_run as $items)
+                                    {
+                                        ?>
+                                        <tr>
+
+                                            <!-- $items['COLUMN NAME IN USER_DIWAR DB'] -->
+                                            <td><?= $items['Employee_no']; ?></td>
+                                            <td><?= $items['Email']; ?></td>
+                                            <td><?= $items['Name']; ?></td>
+                                            <td><?= $items['Date']; ?></td>
+                                            <td><?= $items['Time_from']; ?></td>
+                                            <td><?= $items['Time_to']; ?></td>
+                                            <td><?= $items['Output']; ?></td>
+                                            <td><?= $items['Details']; ?></td>
+                                            <td><?= $items['Verification']; ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                else
+                                {
+                                    ?>
+                                        <tr>
+                                            <td colspan="4">No Record Found</td>
+                                        </tr>
+                                    <?php
+                                }
+                            }
+                            
+        
                         ?>         
                     </tbody> 
                 </table>
